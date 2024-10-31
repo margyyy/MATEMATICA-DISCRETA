@@ -1,5 +1,5 @@
 # MATEMATICA-DISCRETA
-Libro in continuo aggiornamento sulla MATEMATICA DISCRETA, specifical per il primo anno del corso universitario di INFORMATICA.
+Libro in continuo aggiornamento sulla MATEMATICA DISCRETA, specifica per il primo anno del corso universitario di INFORMATICA.
 
 ##########
 Studente del primo anno di Informatica, date le mie lacune in matematica, per rimanere al
