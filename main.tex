@@ -1,0 +1,1677 @@
+\documentclass[article,12pt]{book}
+
+% Pacchetti utili
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}  % Per formule matematiche
+\usepackage{graphicx}                  % Per inserire immagini e grafici
+\usepackage{hyperref}                  % Per collegamenti ipertestuali
+\usepackage{fancyhdr}                  % Per intestazioni e piè di pagina
+\usepackage{geometry}                  % Per impostare i margini
+\usepackage{tikz}
+\usepackage{soul}
+\usepackage{xcolor}
+\usepackage{scalerel}
+\usepackage{relsize}
+
+
+
+% Impostazioni per il layout
+\geometry{margin=1in}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[LO]{\rightmark}
+\fancyhead[RE]{\leftmark}
+
+% Ambienti per teoremi, definizioni, dimostrazioni
+\newtheorem{theorem}{Teorema}[chapter]
+\newtheorem{definition}{Definizione}[chapter]
+\newtheorem{proposition}{Proposizione}[chapter]
+\renewcommand{\contentsname}{Sommario}
+
+\begin{document}
+
+\title{\textbf{MATEMATICA DISCRETA}}  % Titolo
+\author{SCRITTO DA MARGYYY}  % Autore
+\date{DIPARTIMENTO DI INFORMATICA UNIVR \\ ANNO 2024/2025}  % Informazioni aggiuntive
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+\section{Prefazione}
+Studente del primo anno di \textit{Informatica}, date le mie lacune in matematica, per rimanere al passo ho deciso di scrivere questo libro sulla \textit{MATEMATICA DISCRETA} \\
+Oltre a servire a me, rendo libera la condivisione di questo pdf come strumento di supporto per le future matricole. \\
+\textbf{Questo pdf verrà condiviso su github,e con lui il codice sorgente. \\ Attenzione però, saranno consentite modifiche se e solo se verranno approvate dal sottoscritto. Tutto ciò perche questo elaborato è stato creato per un supporto mio allo studio, ma ciò non significa che non possa essere usato anche da altri. \\
+Perciò detengo che sia meglio evitare di contaminare troppo questo documento con altre menti e modi diversi di ragionare, pensare, spiegare e comprendere. \\
+Altri esempi, correzioni e semplificazioni saranno sicuramente graditi!}
+
+\begin{center} \\[25ex]
+    {\scalebox{50}{$\pi$}}  % Scala il simbolo pi greco 10 volte
+\end{center}
+
+
+
+
+
+\newpage
+\section{Teoria degli insiemi}
+Per definizione l'insieme è una \textit{collezione} di elementi che condividono una proprietà in comune.
+Vediamo assieme le varie tipologie e (le più comuni) proprietà che possiamo trovare all'interno del mondo degli insiemi :
+
+\begin{enumerate}
+    \item \textbf{Appartiene} \\[1ex]
+    Si dice in un insieme che un elemento \( x \) appartiene ad un insieme \( A \) tramite la notazione:  \( x \in A \).
+    
+    Se volessimo esprimere questa annotazione in un modo più formale potremmo rappresentarla semplicemente con:
+    
+    \begin{center}
+        \( A = \{ x \,|\, x \text{ ha una certa proprietà} \} \)
+    \end{center}
+
+    \item \textbf{Non appartiene} \\[1ex]
+    Si dice che un elemento \( y \) non appartiene all'insieme \( A \) quando: 
+    \begin{center}
+        \( y \notin A \), oppure per esprimere una semplice negazione \( \rightarrow \) "non \( y \in A \)"
+    \end{center}
+\end{enumerate}
+
+\subsubsection{I connettivi} \\[1ex]
+Parliamo adesso invece dei connettivi, simboli usati nell'ambito matematico per aiutarci a scrivere notazioni in modo \textit{rigoroso}
+
+\begin{itemize}
+    \item \( \land \rightarrow \) Congiunzione/And \( \rightarrow \) \( P \land Q \) 
+    (È vera solo se soddisfa sia \( P \) che \( Q \))
+    
+    \item \( \lor \rightarrow \) Disgiunzione/Or \( \rightarrow \) \( P \lor Q \)  
+    (Possono essere vere entrambe)
+    
+    \item \( \implies \) Implicazione \( \rightarrow \) \( P \) implica \( Q \)
+    (\( P \implies Q \))
+
+    \item $\iff$ Se e solo se \rightarrow \(P\) \iff \(Q\) (P è vera se solo se lo è anche Q)
+
+\end{itemize}
+\\[1ex]
+
+\subsubsection{Vero o falso} \\[1ex]
+In matematica si tende a verificare \textit{il vero}, ma bisognerebbe anche a riconoscere il \textit{falso}.
+I simboli da usare per esprimere queste annotazioni sono :
+\begin{itemize}
+    \item ¬ \( \rightarrow \) per indicare ¬P (P non soddisfa la proprietà)
+    \item \bot \( \rightarrow \) per indicare \( \bot \) (simbolo del falso)
+\end{itemize}
+
+\subsubsection{I quantificatori}
+I quantificatori in matematica servono per identificare quanto sia vera una affermazione.
+Abbiamo 2 tipi di quantificatori: 
+
+\begin{itemize}
+    \item Esistenziale = \(\exists x \, P(x) \) \(\rightarrow \) esiste un elemento "x" per cui vale P (la proprietà)
+
+\end{itemize}
+Proviamo a fare un esempio più pratico scrivendo:
+\begin{center}
+    Esiste una \( x \) appartenente all'insieme dei numeri reali \( \mathbb{R} \) tale che:
+
+\[
+\exists x \in \mathbb{R} \quad \text{tale che} \quad x^2 = 4 
+\] 
+Esiste un elemento $x$ tale che \(x = 4 \)
+\end{center}
+\begin{itemize}
+    \item Universale = \(\forall\) \(\rightarrow\) indica che la proprietà è vera per \textit{tutti} gli elementi di un insieme:
+    \begin{center}
+        \(\forall x, P(x) \) \(\rightarrow\) Per ogni $x$ vale la proprietà  
+    \end{center}
+\end{itemize}
+Proviamo sempre a fare un altro esempio:
+\begin{center}
+    \(\forall x \in \mathbb{R}, x^2 \geq 0 \)
+\end{center}
+
+
+\subsection{Contenimento e sottoinsieme}
+\begin{enumerate}
+    \item A è sottoinsieme \textbf{improprio} (contiene se stesso) di B \( \rightarrow \) \( A \subseteq B \) se e solo se:
+    \begin{center}
+        \(\forall x. (x \in A \implies x \in B) \)
+    \end{center}
+    Per dire in poche parole che se \(x \in A\) allora \(x \in B\)
+    \item \(A = B\) viene indicato per esprimere una \textbf{egualianza}, dove se volessimo annotarla scriveremo 
+    \begin{center}
+        \(\forall x. (x \in A \iff x \in B) \)
+    \end{center}
+    Questa però non è l'unica annotazione che può esprimere un'egualianza.
+    Per renderla ancora più evidente, usando il concetto di contenimento, possiamo esprimerla come:
+    \begin{center}
+        \(A \subseteq B\) e \(B \subseteq A\)
+    \end{center}
+    \item A è sottoinsieme \textbf{prorpio} di B \(\rightarrow\) \(A \subset B \) (tutti gli elementi di $A$ appartengono a $B$)
+    Attenzione però, ciò non vuol dire per forza che $A$ sia uguale a $B$. Facciamo qualche esempio:
+    \begin{center}
+        \(A = \ \{1,2,3\}, B = \{1,2,3,4,5\}\)
+    \end{center}
+    Quindi possiamo confermare che $A$ sia \(\neq \) $B$
+
+    \subsubsection{Principio di comprensione/specificazione}
+    Adesso, grazie alle definizioni date in precendenza sui contenimenti e sottoinsiemi, possiamo affermare che: Per ogni proprietà che definisce un insieme, esiste un insieme che contiene \textit{tutti} e \textit{solo quei} elementi che la soddisfano.
+    \begin{center}
+        A = \{$x$$|$$P(x)$\} \(\rightarrow\) $A$ contiene tutte le $x$ per cui vale la prorpietà $P$
+    \end{center}
+    Volendo fare un esempio più pratico possiamo scrivere:
+    \begin{center}
+        \(A = \{x|x \in \mathbb{R} \land x > 2)\}\
+    \end{center}
+    \subsubsection{L'insieme vuoto}
+        Per dire che in un insieme non ci sono elementi si usa la annotazione: 
+        \begin{center}
+            \(\forall x. x \notin \emptyset \)
+        \end{center}
+        \subsubsection{Prorprietà}
+        \begin{enumerate}
+            \item \( A \subseteq A \) (ogni insieme è contenuto in se stesso)
+            \item \( X \subseteq Y \land Y \subseteq X \) \(\rightarrow\) questo può indicare anche una egualianzia.
+            \item \(\forall A. \emptyset \subseteq A\) \(\rightarrow\) L'insieme vuoto è sottoinsieme di qualsiasi altro insieme
+        \end{enumerate}
+    \subsection{Principi di dimostrazione}
+Una dimostrazione matematica è un processo deduttivo che, a partire da ipotesi considerate valide o da proposizioni già dimostrate, stabilisce la verità di una nuova affermazione basandosi esclusivamente sulla correttezza logica del ragionamento.
+Per adesso introdurremo solo un modo per dimostrare, cioè quello per assurdo:
+    \\[1ex]
+Voglio dimostrare la verità di una assegnazione di $P$:
+    \begin{enumerate}
+        \item Suppongo $P$ sia falsa \textbf{per assurdo}
+        \begin{center}
+            Es: $P$ è sia pari che dispari
+        \end{center}
+        \item Se dal punto $1$ arrivo ad una contraddizione, allora $P$ è vera
+    \end{enumerate}
+\subsubsection{Attenzione!}
+Supponiamo che \(A = \{1,2\} \)
+    \begin{itemize}
+        \item \(\emptyset \subseteq A = vera \)
+        \item \(\emptyset \subset  A = vera \) perchè $A$ contiene elementi
+    \end{itemize}    
+Ma attenzione, se avessimo:
+    \begin{itemize}
+        \item Se $A = \{1,2\}$
+    \begin{center}
+        \begin{itemize}
+            \item \(\emptyset \subseteq A = vera\)
+            \item \(\emptyset \subset A = falsa !\)
+        \end{itemize}
+    \end{center}
+    \end{itemize}
+
+\subsection{Operazione fra insiemi}
+Prima di parlare di operazioni fra insiemi dobbiamo prima fare un appunto.
+Bisognamo prima distinguere 2 tipi casi dove è possibile fare operazioni:
+    \begin{itemize}
+        \item \textbf{n upla}(+ di 2 insiemi) \ \(\rightarrow\) ma che tratteremo più avanti
+        \item \textbf{coppie}, che a loro volta si distinguono in:
+    \begin{center}
+        \begin{enumerate}
+            \item Coppia non ordinata \(\rightarrow\) $A, B$ \(\rightarrow \) $\{A,B\}$ \(\rightarrow\) $\{A,B\} = \{B,A\}$
+            \item Coppia ordinata \(\rightarrow\) $X,Y,Z / X_1, X_2, X_3, \ldots$
+            Dove dati 2 insiemi $X,Y$ abbiamo: \\[2ex]
+            \begin{center}
+                \((X,Y) = \{\{X\},\{X,Y\}\}\)
+            \end{center}
+            
+            \begin{center}
+                \textit{In un gergo più elementare possiamo dire che: Prima "prendiamo" l'insieme $X$ e poi gli aggiungiamo l'insieme $Y$}
+            \end{center}
+        
+        
+        
+        
+        \end{enumerate}
+    \end{center}
+    \end{itemize}
+\newpage
+
+\subsection{Unione insiemistica}
+Per esprimere l'unione di due insiemi $X$ e $Y$ in modo rigoroso scriviamo:
+    \begin{center}
+        \( X \cup Y = \{a | a \in X \lor a \in Y\} \) \(\rightarrow\) $XY = X \cup Y$
+        
+    \end{center}
+\subsubsection{Il caso ennario} \label{unione ennaria} \label{generalizzare}
+    Per scrivere in modo più efficente la sequente notazione: \( X_1 \cup X_2 \cup , \dots X_n =\)
+    \begin{center}
+        \(\bigcup_{i=1}^{n} X_i \) \(\implies\) \((\bigcup_{i=1}^{n} X  _i)\) \(\cup \ X_n\)
+    \end{center}
+Proviamo a farci un esempio per rendere tutto un po' più chiaro:
+\begin{itemize}
+    \item Dati 3 insiemi = $A,B,C$
+    \item Sia \(A \cup B \cup C\), che equivale a dire \(X_1 \cup X_2 \cup X_3\)
+    \item Lo possiamo quindi esprimere come : 
+    \begin{center}
+        \(\bigcup_{i=1}^{3} X_i \)
+            \begin{itemize}
+                \item Dove $3$ rappresenta il numero degli insiemi
+                \item $i=1$ equivale a dire che iniziamo a contare ad incremento di $+1$
+                \item $X_i$ vuol dire contare gli insiemi $X$
+            \end{itemize}
+    \end{center}
+\end{itemize}
+\subsubsection{Per negare l'appartenenza la rappresentiamo come:}
+    \begin{center}
+        \(X \notin A \cup B\)
+    \end{center}
+
+\newpage
+
+\subsubsection{Proprietà dell'unione }
+\begin{enumerate}
+    \item \(X \cup \emptyset = \emptyset\)
+    \item \(X \cup Y = Y \cup X \)
+    \item \(X \cup Y \cup Z = ( X \cup Y) \cup Z\)
+    \item \(X \cup X\)
+    \item \(X \subseteq Z \ \land \)/e \(Y \subseteq Z = X \cup Y \subseteq Z \)
+    \item \(X \subseteq Z \iff X \cup Z = Z \)
+\end{enumerate}
+\begin{center}
+    Partendo dalla proprietà f), proviamo a costruire un esempio di \textit{dimostrazione}: \\[2ex]
+
+    \(X \subseteq Z \iff X \cup Z = Z\) \\[2ex]
+
+    Suddividiamo in due casi la dimostrazione \(\downarrow\)
+    \begin{enumerate}
+        \item \(X \subseteq Z =\) \(\rightarrow\) Per definizionne scriviamo \(\rightarrow\)  \(\{\exists a \in X \ \land\in Z\}\)
+        Quindi banalmente se \(X \cup Z = Z\) allora \(\{\forall .a \in X \subseteq Z\}\)
+        \item \(X \cup Z =\) \(\rightarrow\) Per definizione scriviamo \(\rightarrow\) \(\{a \in X \land \ a \in Z\}\) \\[ex]
+        Dato che \(X \cup Z = Z\) \(\rightarrow\) \(\{a | a \in X \subseteq Z\}\)    
+    \end{enumerate}
+\end{center}
+
+\subsubsection{Dimostrazione passo-passo}
+\begin{center}
+    Riprendiamo il caso f), questa volta proviamo a scomporre di più la dimostrazione: \\[2ex]
+
+    \(X \subseteq Z \iff X \cup Z = Z\) \\[2ex]
+\begin{itemize}
+    \item \(X \subseteq Z\) \(\rightarrow\) assegnamo il valore A
+    \item \(X \cup Z = Z\) \(\rightarrow\) assegnamo il valore B = C
+\end{itemize}
+\begin{enumerate}
+    \item Consideriamo la nostra dimostrazione da sinistra verso destra per implicazione.
+    \begin{center}
+        se \(x \implies \) \(x \subseteq Z\) allora \(X \cup Z = Z\)
+    \end{center}
+Sia \(x \subseteq Z\) e sia \(y \in x \cup Z\) \\
+Quindi \(y \in X \land y \in Z\) \(\rightarrow\) definizione di unione
+
+\begin{itemize}
+    \item Caso 1
+    \begin{center}
+        se \(y \in X\), poiche \(x \subseteq Z\) \(\rightarrow\) \(y \in Z\)
+    \end{center}
+
+    \item Caso 2
+    \begin{center}
+        se \(y \in Z\), banalmente segue:
+    
+    \end{center}
+    \begin{center}
+        se \(y \in Z \) allora \(Z \subseteq X \cup Z\)
+    \end{center}
+\end{itemize}
+    \item Consideriamo adesso la nostra dimostrazione da destra verso sinistra.
+    \begin{center}
+        se \(X \cup Z = Z\) allora \(X \subseteq Z\)
+    \end{center}
+    Sia \(X \cup Z \subseteq Z\) e \(Z \subseteq X \cup 
+ Z\) \(\rightarrow\) quindi tutti gli elementi di $X$ sono in $Z$
+\end{enumerate}
+\end{center}
+\newpage
+
+\subsubsection{Definizione di n uple non ordinate}
+Sia \(\{X_1,X_2,X_3\}\) = \(\{X_1,X_2\}\) \(\cup\)\ \(\{X_3\}\) \(\rightarrow\) \(\{X_1\} \(\cup\) \(\{X_2\} \(\cup\) \(\{X_3\}
+
+\subsubsection{Definzione di insiemistica di \(n \in \mathbb{N}\)}
+Per definizione tratteremo la codifica dei numeri, in questo caso prorprio di \(n \in \mathbb{N}\). \\
+La codifica di un numero è un modo per rappresentare un numero in una forma comprensibile o utilizzabile da un sistema, come un computer o un dispositivo di calcolo.\\ Esistono diversi modi per codificare un numero a seconda del contesto e del tipo di sistema utilizzato. \\
+Provimao a fare qualche esempio:
+\begin{center}
+    \[\begin{aligned} & \overline{0}:=\emptyset\\  & \overline{1}:=\{\overline{0}\}=\{\emptyset\}\\  & \overline{2}:=\{\overline{0},\overline{1}\}=\{\emptyset,\{\emptyset\}\}\\  & \overline{3}:=\{\overline{0},\overline{1},\overline{2}\}=\{\emptyset,\{\emptyset\},\{\emptyset,\{\emptyset\}\}\}\\  & \overline{n}:=\{0,\overline{1},\overline{2}\ldots\overline{n}_{-1},\overline{}\}\end{aligned}\]
+\end{center}
+
+Posiamo notare quindi che data la codifica di \textit{zero} come $= \emptyset$ \\
+Ad ogni codifica del numero successivo viene assegnata la codifica esatta di ogni numero precedente ma a partire proprio dalla codifica di \textit{zero.} \\[2ex]
+Come possiamo vedere nel caso della codifica di 2 $\rightarrow$ \overline{2}:=\{\overline{0},\overline{1}\}=\{\emptyset,\{\emptyset\}\}\\$
+
+\newpage
+
+\subsection{Intersezione insiemistica}
+Per definizione di Intersezione scriviamo :
+\begin{center}
+    \(X \cap Y:\{z|z\in X \land z\in Y\}\)
+\end{center}
+
+Qui a differenza dell'unione insiemistica che si esprime con \textit{or}, l'intersezione la andremo a trattare con \textit{and}, perchè dati due insiemi $X$ e $Y$, prendendo in considerazione un elemento $z$, esso è presente in ciascun degli insiemi messi ad intersezione.
+
+\subsubsection{Caso n ario}
+Per esprimere una intersezione in caso n \textit{n ario} come fatto per \hyperref[unione ennaria]{l'unione}.
+\begin{center}
+    \(\bigcap_{i=1}^{n}X_{i}=X_{i}\cap X_2\cap\ldots X_{n}=\left(\bigcap_{i=1}^{n-i}X_{i}\right)\cap X_{n}\)
+\end{center}
+
+\subsubsection{Proprietà dell'intersezione}
+\begin{enumerate}
+    \item \(\times\cap\emptyset=\emptyset \)
+    \item \(X \cap Y = Y \cap X\)
+    \item \(X \cap (Y \cap Z) = (X \cap Z) \cap Z \)
+    \item \(X \cap X = X\)
+    \item se $W \subseteq X$ e $W \subseteq Y$, allora $W \subseteq X \cap Y$
+    \item $X \subseteq Y \iff X \cap Y = X$
+    \item \textit{Proprietà distributiva} : $X \cap (Y \cup Z) = (X \cap Y) \cup (X \cap Z)$
+    \end{enumerate}
+
+
+\textbf{Dimostrazione della proprietà f:}
+
+\[
+X \subseteq Y \iff X \cap Y = X
+\]
+
+\textbf{(1) Dimostriamo che } X \subseteq Y \implies X \cap Y = X:
+
+Sia \( x \in X \). Poiché \( X \subseteq Y \), abbiamo anche \( x \in Y \). Di conseguenza, \( x \in X \cap Y \). Pertanto, ogni elemento di \( X \) appartiene anche a \( X \cap Y \), quindi \( X \subseteq X \cap Y \).
+
+D'altra parte, per definizione dell'intersezione, \( X \cap Y \subseteq X \). Pertanto, si conclude che \( X = X \cap Y \).
+
+\textbf{(2) Dimostriamo che } X \cap \ Y = X \implies X \subseteq Y:
+
+Sia \( x \in X \). Dal fatto che \( X = X \cap Y \), abbiamo che \( x \in X \implies x \in X \cap Y \). Per definizione di intersezione, \( x \in X \cap Y \) implica che \( x \in Y \). Di conseguenza, ogni elemento di \( X \) appartiene anche a \( Y \), quindi \( X \subseteq Y \).
+
+\textbf{Conclusione:} Abbiamo dimostrato che \( X \subseteq Y \implies X \cap Y = X \) e \( X \cap Y = X \implies X \subseteq Y \).
+
+\newpage
+
+\subsection{Differenza fra insiemi}
+Per definizione di differenza fra insiemi sia:
+\begin{center}
+    $X \setminus Y = \{z|z \in X \land  z \notin Y$\}
+\end{center}
+
+\begin{center}
+    \begin{tikzpicture}
+    % Cerchio X in rosso
+    \fill[grey!50] (0,0) circle(1.5) node at (-1,1.5) {$X$};
+    % Cerchio Y trasparente
+    \fill[white, opacity=0.5] (1.5,0) circle(1.5) node at (3,0) {$Y$};
+
+    % Cerchio Y con contorno
+    \draw[thick] (1.5,0) circle(1.5);
+    
+    % Linee oblique per evidenziare X \ Y
+    \draw[dashed] (-1.5,0) -- (-1.5,1.5) node[midway, left] {$X \setminus Y$};
+    \draw[dashed] (0.5,0) -- (0.5,1.5);
+\end{tikzpicture}
+\end{center}
+
+
+
+
+
+
+\subsubsection{Proprietà della differenza}
+
+\begin{enumerate}
+    \item \(X \setminus \emptyset = X\)
+    \item \(X \setminus X = \emptyset\)
+    \item \((X \setminus Y) \cap Y = \emptyset\)
+    \item \((X \setminus Y) \cup X = X\)
+    \item \(X \cup Y = (X \setminus Y) \cup (X \cap Y) \cup (Y \setminus X)\)
+\end{enumerate}
+
+\subsubsection{Dimostrazione della prorpietà e:}
+\begin{center}
+    \(X \cup Y = (X \setminus Y) \cup (X \cap Y) \cup (Y \setminus X)\)
+\end{center}
+
+\textbf{(1) Dimostriamo per inclusione }, perciò riscriviamo:
+    \begin{center}
+        \(X \cup Y \subseteq (X \setminus Y) \cup (X \cap Y) \cup (Y \setminus X)\)
+    \end{center}
+Per ipotesi assumiamo che se $z \in X \cup Y$, allora ipotiziamo i casi:
+\begin{itemize}
+    \item $z \in X$
+    \item $z \in Y$
+\end{itemize}
+Dato che $z \in X$ allora secondo la definizione di unione $z$ può appartenere o meno anche a $Y$. \\
+Perciò abbiamo che :
+\begin{center}
+    $z \in Y$ oppure $z \notin Y$ $\rightarrow$ \textit{Principio del terzo escluso}
+\end{center}
+
+\begin{enumerate}
+    \item Se $z \in X$ e $z \notin Y$ $\implies$ $z \in (X \setminus Y)$
+    \item Se $z \in Y$ e $z \in X$ $\implies$ $z \in (X \cap Y)$
+    \item Se $z \in Y$ e $z \notin X$ $\implies$ $z \in (Y \setminus X)$
+\end{enumerate}
+
+Abbiamo quindi dimostrato, segmentando la proprietà: 
+    \begin{center}
+        \(X \cup Y = (X \setminus Y) \cup (X \cap Y) \cup (Y \setminus X)\)
+    \end{center}
+
+\newpage
+\subsubsection{Altre proposizioni della differenza insiemistica}
+    \begin{enumerate}
+        \item $(X \cup Y) \setminus Z = (X \setminus Z) \cup (Y \setminus Z)$
+        \item $X \setminus (Y \setminus Z) = (X \setminus Y) \cup (X \cap Z)$
+        \item $(X \setminus Y) \setminus Z = (X \setminus Y) \cup Z$
+        \item $X \cap (Y \setminus Z) = X \cap Y \setminus X \cap Z$
+        \item $(X \setminus Y) \cap Z = (X \cap Z) \setminus (Y \cap Z)$
+    \end{enumerate}
+
+\subsubsection{Dimostrazione della proprietà d: $X \cap (Y \setminus Z) = X \cap Y \setminus X \cap Z$}
+    \begin{center}
+        \begin{aligned}X \cap (Y \setminus Z) \: & =\{z|z\in X,z\in(Y \setminus Z)\}=\\  & =\{z|z\in X \land (x\in Y,z\notin z)\}\\  & =\{z|(z\in X,z\in Y) \land (z\in X \land \notin z)\}\end{aligned}
+     \end{center}
+     
+        Sia quindi che :
+        \begin{itemize}
+            \item \(\{z|z \in X \land z \in Y\}\) $\rightarrow$ $z \in (X \cap Y)$
+            \item $z \notin X \cap Z$ $\rightarrow$ $(X \cap Y) \setminus (X \cap Z)$
+        \end{itemize}
+
+\newpage
+
+\subsection{Differenza simmetrica}
+Sia $X,Y \rightarrow X \triangle Y$ dove la differenza simmetrica si esprime come:
+\begin{center}
+    $X \triangle Y = (X \setminus Y) \cup (Y \setminus X)$
+\end{center}
+La differenza simmetrica è molto utile in vari campi, come la logica, la teoria degli insiemi e l'informatica, per confrontare due insiemi e trovare gli elementi unici. \\
+Se volessimo fare un esempio più pratico potremmo dire che sia :
+    \begin{itemize}
+        \item $X = \{1,2,3,4\}$
+        \item $Y = \{3,4,5,6\}$
+    \end{itemize}
+Ora calcoliamo la differenza simmetrica :
+\subsubsection{1. Calcolo di \(X \setminus Y\)}
+\[
+X \setminus Y = \{1, 2\} \quad (\text{elementi in } X \text{ ma non in } Y)
+\]
+
+\subsubsection{2. Calcolo di \(Y \setminus X\)}
+\[
+Y \setminus X = \{5, 6\} \quad (\text{elementi in } Y \text{ ma non in } X)
+\]
+
+\subsubsection{3. Differenza Simmetrica}
+\[
+X \Delta Y = (X \setminus Y) \cup (Y \setminus X) = \{1, 2\} \cup \{5, 6\} = \{1, 2, 5, 6\}
+\]
+\\[4ex]
+\begin{center}
+    \begin{tikzpicture}
+    % Cerchio X in rosso
+    \fill[grey!50] (0,0) circle(1.5) node at (-1,1.5);
+    % Cerchio Y in rosso
+    \fill[grey!50] (1.5,0) circle(1.5) node at (3,0) {$Y$};
+
+    % Cerchio dell'intersezione in trasparente
+    \begin{scope}
+        \clip (0,0) circle(1.5);
+        \fill[white] (1.5,0) circle(1.5);
+    \end{scope}
+
+    % Contorni dei cerchi
+    \draw[thick] (0,0) circle(1.5);
+    \draw[thick] (1.5,0) circle(1.5);
+    
+
+
+    % Aggiunta di un'etichetta per l'intersezione
+    \node at (0.75,0) {\textcolor{black}{\textbf{X} $\triangle$ \textbf{Y}}};
+\end{tikzpicture}
+\end{center}
+\newpage
+\subsubsection{Proprietà della differenza simmetrica}
+
+\begin{enumerate}
+    \item $X \triangle Y = (X \cup Y) \setminus (X \cap Y)$
+    \item $X \triangle Y = Y \triangle X$
+    \item $(X \triangle Y) \triangle Z = X \triangle (Y \triangle Z)$
+    \item $X \cap (Y \triangle Z) = (X \cap Y) \triangle (X \cap Z)$
+    \item $X \triangle \emptyset = X$
+    \item $X \triangle X = \emptyset$
+    \item $(X \triangle Y) \cap Z = (X \cap Z) \triangle (Y \cap Z)$
+\end{enumerate}
+
+\subsubsection{Dimostrazione della proprietà d:}
+Scriviamo la dimostrazione secondo il criterio se solo se:
+\begin{center}
+    \begin{align*}
+        & X \cap (Y \triangle Z) \iff (X \cap Y) \triangle (X \cap Z)  \\
+        &= X \cap ((Y \setminus Z) \cup (Z \setminus Y) \iff \\
+        &= (X \cap (Y \setminus Z) \cup (X \cap (Z \setminus Y) \\
+        &= ((X \cap Y) \ (X \cap Z)) \cup ((X \cap Z) \setminus (X \cap Y) \iff \\
+        &= (X \cap Y) \triangle(Y \cap Z)
+    \end{align*}
+\end{center}
+
+\newpage
+\subsection{Il prodotto cartesiano}
+\label{prodotto cartesiano}
+Sia $X,Y$ $\rightarrow$ $X \times Y$ dove il prodotto cartesiano si esprime come :
+    \begin{center}
+        $X \times Y = \{(x,y)| x \in X \land y \in Y \}$
+    \end{center}
+Con ciò possiamo dedurre che dato un insieme $X$ elevato alla seconda avremo il suo prodotto cartesiano :
+\begin{center}
+    $X^2 = X \times X$ $\rightarrow$ $X^n = X \times \dots \times X$
+\end{center}
+
+Ma attenzione, dire $X \times Y \neq Y \timesX$
+
+\begin{center}
+    \begin{tikzpicture}
+
+    % Disegna l'insieme X
+    \draw[thick] (0,0) circle(1.5) node at (0, 1.8) {X};
+    \node at (0, 0.5) {1};
+    \node at (0, -0.5) {3};
+
+    % Disegna l'insieme Y
+    \draw[thick] (4,0) circle(1.5) node at (4, 1.8) {Y};
+    \node at (4, 1) {2};
+    \node at (4, 0) {4};
+    \node at (4, -1) {6};
+
+    % Frecce rosse da 1 a Y
+    \draw[->, red] (0, 0.5) -- (3.5, 1);
+    \draw[->, red] (0, 0.5) -- (3.5, 0);
+    \draw[->, red] (0, 0.5) -- (3.5, -1);
+
+    % Frecce blu da 3 a Y
+    \draw[->, blue] (0, -0.5) -- (3.5, 1);
+    \draw[->, blue] (0, -0.5) -- (3.5, 0);
+    \draw[->, blue] (0, -0.5) -- (3.5, -1);
+
+    % Disegna il prodotto cartesiano X x Y
+    \draw[thick] (2, -3) circle(1.5) node at (2, -5) {$X \times Y$};
+    \node at (1.3, -3.5) {(1,6)}
+    \node at (1.3, -2.5) {(1,2)}
+    \node at (1, -3) {(1,4)};
+
+    %specchiato
+    \node at (2.6, -3.5) {(3,6)}
+    \node at (2.6, -2.5) {3,2)}
+    \node at (3, -3) {(3,4)};
+    
+\end{tikzpicture}
+\end{center}
+\\
+Un esempio di prodotto cartesiano può essere: 
+    \begin{center}
+        $\{\pi,e\}\times\{11,49\}=\{(\pi,11),(\pi,49),(e,11),(e,49)\}$
+    
+    \end{center}
+
+\subsubsection{Il diagramma cartesiano}
+Il prodotto cartesiano di $X$ e $Y$ determina il diagramma cartesiano stesso.
+Come abbiamo detto per definizione che $x \in X$ e $y \in Y$, possimo dire quindi che ogni elemento $x$ possiamo collocarlo sull'asse orrizontale e ogni elmento $y$ sull'asse verticale.
+Per correttezza in realta, per esprimere ciò che abbiamo detto in modo più rigoroso, potremmo dire che preso solo e soltanto in consideraione $\rightarrow$ $\mathbb{R}$, abbiamo: 
+    \begin{center}
+        $\mathbb{R}\times\mathbb{R} = \{a,b|a \in \mathbb{R}, b \in \mathbb{R}\}$
+    \end{center}
+\newpage
+Otteniamo un piano bidimensionale infinito. Questo piano è lo spazio in cui si possono rappresentare graficamente:
+    \begin{itemize}
+        \item Funzioni di due variabili
+        \item Curve e figure geometriche
+        \item Punti, rette, parabole, circonferenze, ecc.
+    \end{itemize}
+
+\begin{center}
+    
+\begin{tikzpicture}
+    % Disegna l'asse orizzontale (asse x)
+    \draw[->] (-1, 0) -- (3, 0) node[right] {$\mathbb{R}$};
+    
+    % Disegna l'asse verticale (asse y)
+    \draw[->] (0, -1) -- (0, 3) node[above] {$\mathbb{R}$};
+    
+    % Etichette per l'origine
+    \node at (0, 0) [below right] {0};
+\end{tikzpicture}
+
+\end{center}
+
+Moltiplicando invece $\mathbb{R}$ per $n, n_1$ otteniamo che:
+\begin{center}
+    $\mathbb{R}(n,n_1)=\mathbb{R}\times\{x|n < x < n_1\}$
+\end{center}
+
+In questo caso stiamo creando coppie di ordinate $a,b$ dove $a$ è un qualsiasi numero reale, $b$ invece appartiene all'insieme: $$\{x|n < x < n_1\}$ \\
+Se volessimo rappresentarlo sul piano cartesiano avremmo che
+
+\begin{center}
+    
+\begin{tikzpicture}
+    % Disegna gli assi cartesiani
+    \draw[->] (-1, 0) -- (4, 0) node[right] {$\mathbb{R}$};
+    \draw[->] (0, -1) -- (0, 5) node[above] {$\mathbb{R}$};
+    
+    % Disegna le linee y = 2 e y = 3
+    \draw[dashed] (-4, 2) -- (4, 2) node[right] {$y = n$};
+    \draw[dashed] (-4, 3) -- (4, 3) node[right] {$y = n_1$};
+    
+    % Colora la striscia tra y = 2 e y = 3
+    \fill[grey!20] (-4, 2) rectangle (4, 3);
+
+    % Etichette
+    \node at (4, 4.5) {Striscia tra $y = n$ e $y = n_1$};
+    
+\end{tikzpicture}
+\end{center}
+
+Abbiamo quindi che l'asse $X$ rappresenta tutti i numeri reali $a$, mentre invece l'asse $Y$ è \textit{limitata} tra $n,n_1$. \\
+    \begin{center}
+        Possiamo quindi dire := $\{(a,x\}|a\in\mathbb{R},x\in(n,n_1)\}$
+    \end{center}
+Concludendo abbiamo $R(n,n_1)$ che rappresenta l'insieme di punti $(a, x) \in \mathbb{R} \times \mathbb{R}$ tali che $n < x < n_1$ e $a \in \mathbb{R}$.
+
+\subsubsection{Le coppie ordinate}
+Tramite il prodotto cartesiano, siamo in grado di determinare quelle che chiamiamo coppie ordinate.
+    \begin{center}
+       sia $X\times Y=\{(X,Y)| a \in X \land b\in Y\}$
+    \end{center}
+Determinando la coppia ordinata:
+\begin{center}
+    $\{\{X\},\{X,Y\}\} $ dove $X$ è il primo della coppia
+\end{center}
+\subsubsection{Attenzione!}
+Se dovessi avere una coppia $(Y,X)$, la loro coppia ordinata sarebbe:
+\begin{center}
+    $\{\{Y\},\{Y,X\}\} $ dove $Y$ è il primo della coppia!
+\end{center}
+\newpage
+
+\subsubsection{Proprietà del prodotto cartesiano}
+    \begin{enumerate}
+        \item $X \times Y = \emptyset \iff X \lor Y = \emptyset$
+        \item $X \times Y = Y \times X \iff X = Y$
+        \item $X \times (Y \cup Z) = (X \times Y) \cup (X \times Z)$
+        \item $X \times (Y \cap Z) = (X \times Y) \cap (X \times Z)$
+        \item $X \times (Y \setminus Z) = \{ (x, y) \mid x \in X, \, y \in Y, \, y \notin Z \}$
+        \item $X \times (Y \triangle Z) = \{ (x, y) \mid x \in X, \, y \in (Y \setminus Z) \cup (Z \setminus Y) \}$
+    \end{enumerate}
+
+\subsubsection{Dimostrazione della proprietà d:}
+Sia per ipotesi $X \times (Y \cap Z)$, apriamola scrivendo:
+\begin{center}
+        \begin{align*}
+             X \times (Y \cap Z) &= \{(x,w)|x \in X \land w \in (Y \cap Z)\} \\
+                                 &= \{(x,w)|x \in X \land (w \in Y) \land (w \in Z)\} \\
+                                 &= \{(x,w)|(x \in X \land w \in Y ) \land (x \in X \land w \in Z) \\
+                                 &= \{(x,w)|(x \in X \land w \in Y )\} \cap \{(x,w)|(x \in X \land w \in Z )\ \\
+                                 &== (X \times Y) \cap (X \times Z)
+        \end{align*}
+       
+
+
+
+
+        
+\end{center}
+\newpage
+
+\subsection{Insieme delle parti}
+Per definire l'insieme delle parti (o potenza di un insieme) prendiamo in considerazione un insieme $X$, dove l'insieme delle parti di $X$ sarà denotato come $\rightarrow$ $P(X)$ o $2^S$. \\
+L'insieme delle parti quindi l'insieme di tutti i sottoinsiemi di X, inclusi l'insieme vuoto e l'insieme stesso.
+
+\subsubsection{Definzione formale}
+Se $X$ è un insieme, l'insieme delle parti di $X$ sarà:
+    \begin{center}
+        $P(X)=\{A|A \subseteq X\}$ $\rightarrow$ dove $A$ è qualsiasi sottoinsieme di $X$
+    \end{center}
+\textbf{N.B}, l'insieme vuoto è contenuto in qualsiasi insieme $\rightarrow$ $\emptyset \in P(X)$, e pertanto $X \in P(X)$, quindi $X$ è contenuto in se stesso.
+    \begin{center}
+        \begin{align*}
+        &A \subseteq X \ \ \ \ \ \ \ \ A \in P(X) \\
+        &x \in X \ \ \ \ \ \ \ \ \{x\} \in P(X)
+        \end{align*}
+    \end{center}
+\subsubsection{Esempio 1}
+$X = \{a,b,c\}$ \\
+$P(x)=\{\emptyset,\{a\},\{b\},\{c\},\{a,b\},\{a,c\},\{b,c\},\{a,b,c\}\}$
+
+\subsubsection{Esempio 2}
+$\overline{2}=\{0,\overline{1}\}=\{\emptyset,\{\emptyset\}\}$ \\
+$P(\overline{2})=P\{\overline{0},\overline{1}\}=\{\emptyset,\{0\},\{1\},\{0,1\}\}$
+
+\newpage
+\subsection{Complemento di un sottoinsieme}
+Se $U$ è un insieme e $A \subseteq U$, il complemento di A sarà definito come: \\
+    \begin{center}
+        $A^{c}:=U\smallsetminus A=\{x\in U\mid x\notin A\}$ e $x \in A^c \iff x \notin A$
+    \end{center}
+Se volessimo dare una definizone rigorosa diremmo che: Il complemento di un insieme $A$ è definito come l'insieme di tutti gli elementi che non appartengono a $A$ all'interno di un insieme universale $U$.
+
+\subsubsection{Caratteristiche}
+\begin{itemize}
+    \item  È fondamentale specificare l'insieme universale $U$ per definire il complemento, poiché gli elementi considerati "fuori" da $A$ sono quelli che non appartengono a $A$ ma che sono contenuti in $U$.
+    \item Il complemento dell'insieme universale $U$ è l'insieme vuoto $\emptyset$, dato che non ci sono elementi che non appartengono a $U$.
+    \item  Il complemento dell'insieme vuoto $\emptyset$ è l'insieme universale $U$, poiché tutti gli elementi in $U$ non appartengono a $\emptyset$.
+\end{itemize}
+
+Se dovessimo ragiornare all'interno dei numeri, potremmo invece dire che:
+\begin{center}
+    $\mathbb{N} \subseteq \mathbb{Z}$
+\end{center}
+\begin{center}
+    $\mathbb{N}^c = \mathbb{Z} \setminus \mathbb{N} =\{x \in \mathbb{Z}|x < 0\}$
+\end{center}
+
+\newpage
+
+
+\subsubsection{Proprietà dei complementi}
+Sia $X, A \subseteq X, B \subseteq X, A^c, B^c$ \\
+    \begin{enumerate}
+        \item $A \cup A^c = X$
+        \item $A \cap A^c = \emptyset$
+        \item $(A^c)^c = A$
+        \item $X^c = \emptyset$
+        \item $O^c = X$
+        \item $A \setminus B = A \cap B^c$
+        \item $A \subseteq B \iff B^c \subseteq A^c$
+    \end{enumerate}
+
+\subsubsection{Dimostrazione della proprietà c:}
+Sia $(A^c)^c = A$, per ipotesi scriviamo: \label{dimostrazione con de morgan}
+    \begin{center}
+            \begin{align*}
+                (A^c)^c &= \{x|x \notin A^c\}\\
+                        &= \{x \in X | \neg (x \subset A^c\} \\
+                        &= \{x \in X | \neg\neg (x \in A\} \\
+                        &= \{x \in X | (x \in A \} = A
+            \end{align*}
+        
+    \end{center}
+Per dimostrare questa proprietà, se lo avete notato, abbiamo usato un metodo particolare, lo abbiamo fatto attraverso la \textit{Legge di De Morgan} che spiegheremo successivamente, intanto proviamo a spiegare meglio cosa è successo:
+
+\paragraph{Definizioni:}
+    \begin{itemize}
+        \item $A^c$ rappresenta il complementare di $A$, cioè l'insieme di tutti gli elementi che \textbf{non} appartengono ad $A$.
+        \item $(A^c)^c$ rappresenta il complementare del complementare di $A$, cioè l'insieme degli elementi che \textbf{non} appartengono a $A^c$.
+ 
+
+    \end{itemize}
+
+\paragraph{Dimostrazione:}
+
+\textbf{1. Per mostrare che $(A^c)^c \subseteq A$:}
+\begin{itemize}
+    \item Sia $x \in (A^c)^c$. Per la definizione di complementare, significa che $x \notin A^c$, cioè $x \in A$.
+    \item Quindi $(A^c)^c \subseteq A$.
+    
+\end{itemize}
+\newpage 
+\textbf{2. Per mostrare che $A \subseteq (A^c)^c$:}
+\begin{itemize}
+    \item Sia $x \in A$. Per la definizione di complementare, $x \notin A^c$, quindi $x \in (A^c)^c$.
+    \item Quindi $A \subseteq (A^c)^c$.
+\end{itemize}
+
+Dalle due inclusioni $(A^c)^c \subseteq A$ e $A \subseteq (A^c)^c$, possiamo concludere che:
+\[
+(A^c)^c = A
+\]
+Questa è una proprietà fondamentale degli insiemi.
+
+\newpage
+\subsection{Legge di De Morgan}
+La legge di De Morgan riguarda il modo in cui possiamo trasformare le operazioni logiche o insiemistiche quando si usano complementi, unioni e intersezioni.
+
+In termini di insiemi, ci sono due leggi fondamentali:
+
+\begin{itemize}
+    \item \textbf{Il complementare dell'unione di due insiemi} è uguale all'\textbf{intersezione dei complementari}:
+    \[
+    (A \cup B)^c = A^c \cap B^c
+    \]
+    Questo significa che se prendi il complementare dell'unione di due insiemi, ottieni gli elementi che non appartengono né ad $A$ né a $B$, cioè l'intersezione dei loro complementari.
+
+    \item \textbf{Il complementare dell'intersezione di due insiemi} è uguale all'\textbf{unione dei complementari}:
+    \[
+    (A \cap B)^c = A^c \cup B^c
+    \]
+    Questo significa che se prendi il complementare dell'intersezione di due insiemi, ottieni gli elementi che non appartengono a $A$ o non appartengono a $B$, cioè l'unione dei loro complementari.
+\end{itemize}
+
+\subsection*{Un esempio pratico}
+Immagina due insiemi $A$ e $B$: $A$ rappresenta le persone che amano la pizza, e $B$ quelle che amano i gelati.
+
+\begin{itemize}
+    \item Secondo la prima legge di De Morgan, il complementare di "persone che amano la pizza \textbf{o} il gelato" è uguale a "persone che non amano né la pizza né il gelato".
+    
+    \item La seconda legge dice che il complementare di "persone che amano la pizza \textbf{e} il gelato" è uguale a "persone che non amano la pizza \textbf{o} non amano il gelato (almeno uno dei due)".
+\end{itemize}
+
+Queste leggi sono utili perché ci permettono di trasformare espressioni complesse in modi più semplici o più convenienti. \\
+
+Rifacendoci all'esempio della \hyperref[dimostrazione con de morgan]{dimostrazione} di prima, possiamo ricavare due proprietà particolari:
+\begin{center}
+    
+        \begin{itemize}
+            \item sia $\neg(A \lor B) \equiv (\neg A) \land (\neg B)$
+            \item sia $\neg(A \land B) \equiv (\neg A) \lor (\neg B)$
+        \end{itemize}
+        
+\end{center}
+\newpage
+\subsection{Relazioni fra insiemi}
+Per definire che cos'è che mette in relazione due insiemi, sia $X,Y$ dove la \textit{relazione} è il loro \hyperref[prodotto cartesiano]{prodotto cartesiano.}
+Per definizione quindi:
+    \begin{center}
+        $R \subseteq X \times Y$
+    \end{center}
+Dove presi due elementi: \[
+\underset{X}{\underset{\rotatebox[origin=c]{270}{$\in$}}{a}} \, R \, \underset{Y}{\underset{\rotatebox[origin=c]{270}{$\in$}}{b}} \iff (a,b) \in R
+\] \\
+R sarà incluso in $X \times X$ e $\emptyset$ incluso in $X \times Y$. \\
+Con \textbf{arietà} di una relazione invece intendiamo il numero di elementi o insiemi coinvolti nella relazione stessa 
+\
+\subsubsection{Relazione Unaria}
+Una \textbf{relazione unaria} è una relazione che coinvolge solo un singolo insieme di elementi. In altre parole, una relazione unaria può essere vista come un modo per attribuire proprietà a ogni elemento di un insieme.\\
+Se \( A \) è un insieme, una relazione unaria \( R \) su \( A \) è un sottoinsieme di \( A \). Gli elementi di \( R \) sono quegli elementi di \( A \) che soddisfano una certa proprietà.
+
+\subsubsection{Esempi}
+\begin{enumerate}
+    \item \textbf{Proprietà di Pari}: Considera l'insieme \( A = \{1, 2, 3, 4, 5, 6\} \). La relazione unaria ``essere un numero pari'' può essere rappresentata come \( R = \{2, 4, 6\} \). Qui, \( R \) contiene gli elementi di \( A \) che soddisfano la proprietà di essere pari.
+    
+    \item \textbf{Proprietà di Essere Maggiore di 3}: Se prendiamo lo stesso insieme \( A = \{1, 2, 3, 4, 5, 6\} \), la relazione unaria ``essere maggiore di 3'' sarà \( R = \{4, 5, 6\} \).
+\end{enumerate}
+
+\subsubsection{Rappresentazione}
+In notazione, una relazione unaria può essere scritta come:
+\[
+R(x) \quad \text{dove } x \in A
+\]
+significa che \( x \) ha una certa proprietà descritta dalla relazione \( R \).
+\\
+In sintesi, una relazione unaria è un modo per descrivere e categorizzare gli elementi di un insieme in base a una singola proprietà, ed è una delle forme più semplici di relazioni in matematica.
+
+\newpage
+\subsubsection{Facciamo qualche esempio utilizzando le diagonali}
+    \textit{Esempio 1} \\
+
+
+\begin{center}
+\begin{minipage}{0.45\textwidth}
+    \begin{tikzpicture}[scale=1.5]
+        % Disegno degli assi
+        \draw[->] (-1, 0) -- (3, 0) node[right] {\(x\)};
+        \draw[->] (0, -1) -- (0, 3) node[above] {\(y\)};
+        
+        % Disegno della diagonale
+        \draw[blue, thick] (-1, -1) -- (3, 3) node[right] {\(y = x\)};
+    \end{tikzpicture}
+\end{minipage}%
+\hfill
+\begin{minipage}{0.45\textwidth}
+    $Diag$\((\mathbb{R}) = \{(x,x) \mid x \in \mathbb{R} \} \)
+    
+\end{minipage} \\
+sia quindi $\{(X,Y)|X=Y \}$
+\end{center}
+\textit{Esempio 2}
+
+\begin{center}
+\begin{minipage}{0.45\textwidth}
+    \begin{tikzpicture}[scale=1.5]
+        % Disegno degli assi
+        \draw[->] (-1, 0) -- (3, 0) node[right] {\(x\)};
+        \draw[->] (0, -1) -- (0, 3) node[above] {\(y\)};
+        
+        % Disegno della diagonale tratteggiata
+        \draw[blue, thick, dashed] (-1, -1) -- (3, 3) node[right] {\(y = x\)};
+    \end{tikzpicture}
+\end{minipage}%
+\hfill
+\begin{minipage}{0.45\textwidth}
+    $Codiag(X) = Diag (X^c)$
+\end{minipage} \\
+sia quindi $\{(X,Y) \in X \times X | X \neq Y \}$
+\end{center}
+\newpage
+\subsubsection{Definizione di relazione inversa}
+\begin{center}
+    Sia $R^-1 = \{(y,x) \in Y \times X | (x,y) \in \mathbb{R} \}$ dove $(y,x) \in R^-1 \iff (x,y) \in R$
+\end{center}
+
+\subsubsection{Definizione di composizione}
+Il composto di due relazioni (o composizione di relazioni) è un'operazione che permette di combinare due relazioni tra insiemi. \\
+
+\begin{center}
+\begin{tikzpicture}
+    % Primo cerchio X
+    \draw (0,0) circle(1cm);
+    \node at (0,0) {\(x\)};
+    \node at (0,-1.5) {\(X\)};
+
+    % Secondo cerchio Y
+    \draw (3,0) circle(1cm);
+    \node at (3,0) {\(y\)};
+    \node at (3,-1.5) {\(Y\)};
+
+    % Terzo cerchio Z
+    \draw (6,0) circle(1cm);
+    \node at (6,0) {\(z\)};
+    \node at (6,-1.5) {\(Z\)};
+
+    % Collegamento da x a y (semicirconferenza verso l'alto)
+    \draw[bend right=45] (0,0) to (3,0);
+    \node at (1.5,-1.3) {\(R_1\)};
+
+    % Collegamento da y a z (semicirconferenza verso l'alto)
+    \draw[bend right=45] (3,0) to (6,0);
+    \node at (4.5,-1.3) {\(R_2\)};
+
+    % Grande collegamento blu da x a z
+    \draw[blue, thick, bend left=60] (0,0) to (6,0);
+
+    % Etichetta R_1 \circ R_2 al centro del collegamento blu
+    \node at (3,2) {\(R_1 \circ R_2\)};
+    
+\end{tikzpicture}
+\end{center}
+Per definizione quindi sia:
+    \begin{center}
+        $R_1 \subseteq X \times Y \land R_2 \subseteq Y \times Z$
+    \end{center}
+
+Puoi pensare alla composizione come a un collegamento "concatenato" tra due elementi tramite un terzo. In altre parole, se \( a \) è in relazione con \( b \) tramite \( R_1 \) e \( b \) è in relazione con \( c \) tramite \( R_2 \), allora possiamo dire che \( a \) è in relazione con \( c \) tramite la composizione delle due relazioni. \\
+
+Se volessimo quindi identificare il composo di due relazioni scriveremo:\\
+    \begin{center}
+        $R_1 \circ R_2 = \{ (x, z) \in X \times Z \mid \exists y \in Y \text{ tale che } (x, y) \in R_1 \text{ e } (y, z) \in R_2 \}$
+
+    \end{center}
+\subsubsection{Definizione di relazione chiusa rispetto $\cup,\cap$}
+\begin{itemize}
+    \item Sia $Diag(X) \cup Codiag(X) = X \times X \rightarrow X^2$
+    \item Sia $Diag(X) \cap Codiag(X) = \emptyset$
+\end{itemize}
+\newpage
+
+\subsubsection{Proprietà delle relazioni}
+Sia $R \subseteq X \times Y$ \ \ \ \ \ \ \ \ \ \ \ \ $S \subseteq Y \times Z, T \subseteq Z \times W$
+
+\begin{enumerate}
+    \item $Diag(Y) \circ R = R$
+    \item $R \circ Diag(X) = R$
+    \item $T \circ (S \circ R) = (T \circ S) \circ R$
+\end{enumerate}
+\newpage
+
+\subsection{Famiglie di insiemi}
+    \begin{center}
+        Sia $\overline{n}=\{0,1,2,3,\ldots,n^{-1}\}$
+    \end{center}
+Prendendo un insieme di indici $i \in I \neq \emptyset$ ciasciun indice  $i$ viene associato $X_i$ \\
+Determinando così la famiglia di insiemi $\rightarrow$ $X = {X_i | i \in I$
+
+\subsubsection{Esempio 1}
+$I =\overline{2}=\{0,1\}$ \\
+$0 \mapsto \mathbb{Z}$ \\
+$1 \mapsto \mathbb{Q} \setminus \mathbb{Z}$ \\
+Sia quindi un insieme: 
+    \begin{center}
+    $X=\{X_0,X_1\}=\{\mathbb{Z},\mathbb{Q}\setminus \mathbb{Z}\}$
+    \end{center}
+
+\subsubsection{Esempio 2}
+$I = \mathbb{N}$ \\
+$n \mapsto A_n = \{m \in \mathbb{N} | m \geq n$ \\
+Sia quindi un insieme: 
+\begin{center}
+    $X = \[A_n | n \in \mathbb{N}$
+\end{center}
+
+\subsubsection{Esempio 3}
+$I = X$ \\
+$a \mapsto \{a \}$ \\
+Sia quindi un insieme:
+    \begin{center}
+        $A = \{\{a\} | a \in X \}$
+    \end{center}
+\newpage
+\subsection{Generalizzare le operazioni}
+Come gia visto in \hyperref[generalizzare]{precedenza}, possiamo generalizzare le operazioni di unione e intersezione fra insiemi:
+    \begin{itemize}
+        \item $\bigcup x:=\bigcup_{i\in I}X_i = \{x | \exists i \in I, x \in X_i \}$
+        \item $\bigcap x:=\bigcap_{i\in I}X_i = \{x ! \forall i \in I, x \in X_i \}$
+        
+    \end{itemize}
+\subsubsection{Esercizio 1}
+$\begin{aligned}&X=\{x_{0},x_1 \}=\{\mathbb{Z}, \mathbb{Q} \setminus \mathbb{Z} \} \\&\bigcup_{i\in \bar{2}}X_{i}=x_{0}\cup X_{i}=\mathbb{Q} \\&\bigcap_{i\in \bar{2}}X_{i}=X_{0}\cap X_{1}=\emptyset\end{aligned}$
+
+\subsubsection{Esercizio 2}
+$I = \mathbb{N}$
+$\begin{aligned}n\longmapsto A_{n}: & =\{m\in\mathbb{N}\mid m\geq n\}\\ A_0: & =\{m\mid m\geq0\}\\ A_1: & =\{m\mid m\geq1\}\end{aligned}$ \\
+
+Sia che $\mathbb{N} = A_o$, possiamo dire quindi: \\
+
+$\begin{aligned}\bigcup_{m\in\mathbb{N}}A_m&=\mathbb{N}\\\bigcap_{m\in\mathbb{N}}A_m&=\emptyset\end{aligned}$
+
+\newpage
+3,14 \\[25ex]
+\begin{center} 
+    {\scalebox{50}{$\pi$}}  % Scala il simbolo pi greco 10 volte
+\end{center}
+
+\newpage 
+
+\section{Le funzioni}
+Sia una relazione $R \subseteq X \times Y$, in questo caso $R$ è una funzione se e solo se : 
+    \begin{center}
+        $\forall x \in X, \exists !y \in Y$
+    \end{center}
+Se $x = x_1 \implies f = (x) = f(x_1)
+
+\subsubsection{terminologia}
+    \begin{itemize}
+        \item $X$ è il \textit{dominio} della funzione (dove la funzione stessa è definita)
+        \item $Y$ è il \textit{codominio} della funzione
+        \item $f(x)$ è \textit{l'immagine} di $x$ tramite $f$
+    \end{itemize}
+
+\begin{center}
+    \begin{tikzpicture}
+    % Disegno del primo cerchio X
+    \draw[thick] (0,0) circle (1.5); 
+    \node at (0, -0.5) {x};
+    \node at (0, 0.5) {$x_1$};
+    \node at (0, 1.8) {X}; % Nome del cerchio X sopra il cerchio
+    
+    % Disegno del secondo cerchio Y
+    \draw[thick] (4,0) circle (1.5);
+    \node at (4, 0) {y};
+    \node at (4, 1.8) {Y}; % Nome del cerchio Y sopra il cerchio
+
+    % Freccia da x a y
+    \draw[->, thick] (0, -0.5) -- (3.9, 0);
+    
+    % Freccia da x_1 a y
+    \draw[->, thick] (0, 0.5) -- (3.9, 0);
+\end{tikzpicture}
+\end{center}
+
+Una \textbf{funzione} quindi è un modo per collegare due insiemi di numeri o oggetti, in cui a ogni elemento di un insieme (chiamato insieme di partenza o dominio) corrisponde esattamente un elemento di un altro insieme (chiamato insieme di arrivo o codominio).
+
+In parole più semplici:
+\begin{itemize}
+    \item Immagina di avere un sacchetto di frutta (il dominio) e di voler creare una regola per scegliere un tipo di frutta per ogni colore (il codominio). Ad esempio, se scegli il colore "giallo", la regola può dirti di prendere una banana.
+    \item Quindi, per ogni colore che scegli, c'è una sola frutta che puoi ottenere. Se provi a scegliere un colore che non è nella tua regola, non otterrai nulla.
+\end{itemize}
+
+In sintesi, una funzione è come una macchina che prende un input (un valore dall'insieme di partenza) e produce un output (un valore dall'insieme di arrivo) seguendo una regola specifica.
+
+\newpage
+\subsubsection{Esempio 1}
+Sia $y_0 \in Y$, scriveremo quindi $f__y0$ $ $: x \mapsto$ tale che $\forall x f__y0$$(x) = y__0$ \\
+Se lo dovessimo invece scrivere come un insime di \textit{coppie} scriveremo:
+    \begin{center}
+        $f__y0$ $=\{(x,y)_0 | x \in X \}$
+    \end{center}
+\subsubsection{Esempio 2}
+Sia $id_x = \{(x,x) | x \in X \}$ \\
+Se invece volessimo la $Diag(\bar{2}) = Diag (\{0,1 \}) = \{(0,0),(1,1) \}$
+
+\subsubsection{Esempio funzione  di dirischlet}
+Sia $\mathbb{R} \mapsto \mathbb{R}$, e secondo la funzone di Dirischlet:
+    \begin{center}
+        Dir(x)= \begin{cases}
+            1 \ \text{se} \ x \in \mathbb{Q} \\[8ex]
+            0 \ \text{se} \ x \notin \mathbb{Q}
+        \end{cases}
+    \end{center} \\
+
+\begin{center}
+    $Dir=\{(x,1)\mid x\in\mathbb{Q}\}\cup\{(x,0)\mid x\notin\mathbb{Q}\}$
+\end{center}
+
+\newpage
+\subsection{Immagine e controimmagine di una funzione}
+\begin{itemize}
+    \item L'\textbf{immagine} di una funzione viene espressa come l'insieme dei valori che la funzione può assumere quando applicata a tutti i valori del suo dominio.
+Se dovessimo dare una definizione rigorosa di immagine potremmo dire :
+    \begin{center}
+        sia $f: x \rightarrow y, A \subseteq X$
+    \end{center}
+Diremo che :
+    \begin{center}
+    \begin{align}
+        f(A) &= \{f(x) | x \in A \} \\
+             &= \{y \in Y | \exists x \in A. f(x) = y \}
+    \end{align}
+    \end{center}
+In questo caso consideremo A come sottoinsieme del codominio,e la consideremo appunto come l'immagine di $A$ secondo $f$ 
+    \begin{center}
+        $f(A) \subseteq Y$
+    \end{center}
+
+    \item La \textbf{controimmagine} ( immagine inversa) di un valore rispetto a una funzione è l'insieme di tutti gli elementi del dominio che vengono mappati in quel valore specifico dal funzione. \\
+    E ciò è utile per comprendere come i valori del codominio sono correlati agli input del dominio.
+    Facciamo sempre un altro esempio : \\
+    Sia $B \subseteq Y$
+    \begin{center}
+        $f^-1 (B) = \{x \in X | f(x) \in B \}$
+    \end{center}
+In sostanza, grazie alla definizione che abbiamo dato, \\
+se sia un insieme del codominio (corrispondente all'immagine della funzione) si può grazie alla controimmagine risalire a un altro insieme chiamato :
+    \begin{center}
+        $f^-1(B)$ con $B$ corrispondente all'immagine stessa
+    \end{center}
+Riuscendo cosi a determinare i valori del dominio mappati sul dominio.
+    \item Si dice \textbf{fibra} invece: 
+        \begin{center}
+            $f^-1 (y) = \{x \in X | f(x) = y \}$
+                \end{center}
+Da questa definizione, possiamod definire la fibra semplicemente come : l'insieme dei punti nel dominio della funzione che vengono mappati in uno stesso punto del codominio.  \\
+Facciamo un esempio per assimilarne al meglio il concetto di fibra :
+    \begin{center}
+        Sia una funzione costante $\rightarrow$ $f_c : \mathbb{R} \rightarrow \mathbb{R}$ \\[2EX]
+        $f_c (\mathbb{R}) = \{C \}$, \\[1EX]
+        $f_c ^-1 (D) = \{ \mathbb{R}$ se solo se $D = C$ \}, altrimenti sarà $\emptyset$
+        
+    \end{center}
+In questo caso sia una fibra dove preso qualsiasi valore $x$ appartenente ad $\mathbb{R}$ il risultato della funzione sarà sempre $C$
+\end{itemize}
+\newpage
+\subsubsection{Elenchiamo qualche proprietà delle immagini delle funzioni:} sia $f : x \rightarrow Y$, $A_1 \subseteq X$
+\begin{enumerate}
+    \item $f(A_1 \cup A_2) = f(A_1) \cup f(A_2)$
+    \item $f(A_1 \cap A_2) \subseteq f(A_1) \cap f(A_2)$
+    \item $A_1 \subseteq A_2 \implies f(A_1) \subseteq f(A_2)$
+    \item $A \subseteq f^-1 (f(A))
+
+\subsubsection{Esempio con Dirischle:}
+sia $A_1 = [0,1]$, $A_2 = [1,2]$ \\
+sia $A_1 \cap A_2 = \{1 \}$ \\[2EX]
+Diremo quindi: 
+    \begin{itemize}
+        \item $dir(A_1 \cap A_2) = dir (\{1 \}) = \{1 \}$, con $1 \in \mathbb{Q}$
+        \item $dir(A_1) = \{0, 1 \}, \ \ \ \ \ \ \ \ \sqrt{2}/2 \in A_1 \cap (\mathbb{R} \setminus \mathbb{Q})$
+        \item $dir(A_2) = \{0, 1 \}, \ \ \ \ \ \ \ \ \sqrt{2} \in A_2 \cap (\mathbb{R} \setminus \mathbb{Q})$
+    \end{itemize}
+
+    
+\end{enumerate} \\
+\subsubsection{Elenchiamo adesso invece qualche proprietà della controimmagine :}
+sia $f : x \rightarrow y$, \\
+sia $B_1, B_2 \subseteq Y$, \\
+\begin{enumerate}
+    \item $f^-1 (B_1 \cup B_2) =  f^-1 (B_1) \cup f^-1 (B_2)$
+    \item $f^-1 (B_1 \cap B_2) = f^-1 (B_1) \cap f^-1 (B_2)$
+    \item $f^-1 (B_1 \setminus B_2) = f^-1 (B_1) \setminus f^-1 (B_2)$
+    \item $f^-1 (B^c) = [f^-1(B)]^c$
+    \item $f^-1 (B_1 \triangle B_2) = f^-1 (B_1) \triangle f^-1 (B_2)$
+    \item $B_1 \subseteq B_2 \implies f^-1 (B_1) \subseteq f^-1 (B_2)$
+    \item $f(f^-1 (B)) = B \cap f(x)$
+    
+\end{enumerate}
+
+\newpage
+\subsection{Iniettività e surriettività}
+Definiamo = $f : x \rightarrow y$
+    \begin{enumerate}
+        \item $f$ è \textbf{suriettiva / surj} se e solo se $f(x) = Y$ \\
+        dove : $(\forall y \in Y. \exists x \in X | f(x) = Y) \rightarrow$ $y$ è tutto il codominio
+        \item $f$ è \textbf{iniettiva} se e solo se $\forall Y \in Y$ :
+        \begin{center}
+            $f^-1 (y)$ è $\emptyset$ oppure un singoletto, ovvero \textit{l'antimmagine} \\ dove ha al massimo 1 elemento
+        \end{center}
+        Se solo se $f(x) = f(x^I) \implies x = x^I$, oppure usando la forma della negazione : \\
+        ( se $A \rightarrow B \equiv \perp B \rightarrow \perp A)$, \\[2EX]
+        \begin{center}
+             se $x \neq x^I \implies f(x) \neq f(x^1)
+        \end{center}
+       
+        
+    \end{enumerate}
+
+\subsection{Biettività}
+La funzione in questo caso sarà biettiva se è sia suriettiva che iniettiva:
+    \begin{center}
+        $\forall y \in Y. \exists ! x \in X | f(x) = y$
+    \end{center}
+
+\subsubsection{Proiezione canonica}
+Le proiezioni canoniche sono funzioni che \textit{proiettano} elementi del prodotto cartesiano di due insiemi tramite $\pi$, facciamo un esempio:
+
+        \begin{itemize}
+            \item $\pi_1 proj_x = X \times Y \rightarrow X    $ \ \ \ \ \ \ \ \ \ \ $\pi_1 (x,y) = x$ \ \ \ \ \ \ \ \ \ \ Questa funzione restituisce il primo elemento della coppia.
+
+
+            \item $\pi_2 proj_y = X \times Y \rightarrow Y     $ \ \ \ \ \ \ \ \ \ \ $\pi_1 (x,y) = y$ \ \ \ \ \ \ \ \ \ \ Questa funzione restituisce il secondo elemento della coppia.
+
+
+            
+        \end{itemize}
+\newpage
+\subsection{Composizione di funzioni}
+Definiamo = $f: x \rightarrow y$ e $g : y \rightarrow z$ \\
+Diciamo che $g \circ f : x \rightarrow z$, quindi diremo che : \ \ \ \ \ \ \ \ \ \ \ \ \ \  \ \ \ $(g \circ f) (x) = g(f(x))$
+
+
+
+\begin{center}
+    \begin{tikzpicture}[node distance=2cm]
+    % Definire i nodi
+    \node (X) {X};
+    \node (Y) [right of=X] {Y};
+    \node (Z) [right of=Y] {Z};
+
+    % Disegnare le frecce
+    \draw[->] (X) -- node[above] {$f$} (Y);
+    \draw[->] (Y) -- node[above] {$g$} (Z);
+    
+    % Disegnare l'arco da X a Z
+    \draw[->] (X) .. controls +(down:1cm) and +(down:1cm) .. (Z) node[midway, below] {$g \circ f$};
+\end{tikzpicture}
+\end{center}
+Per fare un \textbf{esempio} scriveremo : 
+Sia $quad : \mathbb{R} \rightarrow [0, +\infty)$
+\begin{center}
+    \begin{align*}
+        &\sqrt{n} : [0, +\infty)] \rightarrow [0, +\infty] \\
+        &\sqrt{n} \lor quad(x) = \sqrt{quad(x)} = \sqrt{x^2} = x
+    \end{align*}
+\end{center}
+\subsubsection{Diamo qualche proprosizione utile:}
+
+\begin{enumerate}
+    \item $f \circ g \neq g \circ f$
+    \item $h \circ (g \circ f) = (h \circ g) \circ f$
+    \item su $f : x \rightarrow y$ sia :
+        \begin{itemize}
+            \item $f \circ id_x = f$
+            \item $id_y \circ f = f$
+        \end{itemize}
+    
+\end{enumerate}
+
+\newpage
+\subsection{Proprietà (inn, surr e comp)}
+Sia $f : X \rightarrow Y$ e sia $g : Y \rightarrow Z$
+    \begin{enumerate}
+        \item se $f \land g$ sono iniettive \implies $g \circ f$ sono iniettive
+        \item se $f \land g$ sono surrettive $\implies$ $g \circ f$ sono surrettive
+        \item se $f \land g$ sono biettive $\implies$ $g \circ f$ sono biettive
+        \item se $g \circ f$ è iniettiva $\implies$ $f$ è iniettiva
+        \item se $g \circ f$ è suriettiva $\implies$ $g$ è suriettiva
+    \end{enumerate}
+\subsubsection{Proviamo a fare qualche esempio:}
+    \begin{itemize}
+        \item sia $f : \{0,1 \} \rightarrow \mathbb{R}$, con $0 \mapsto 1$ e con $1 \rightarrow \sqrt{2}$ \\
+        $Dir : \mathbb{R} \mapsto \mathbb{R}$ (sappiamo che $Dir$ non è iniettiva) \\[2EX]
+        Ma sappiamo che la composizione $(Dir \circ f)$ è iniettiva
+
+\textbf{Perché \( Dir \circ f \) è iniettiva anche se \( Dir \) non lo è?}
+
+1. \( Dir(f(0)) = Dir(1) \)
+2. \( Dir(f(1)) = Dir(\sqrt{2}) \)
+
+Se \( Dir(1) = Dir(\sqrt{2}) \), \\
+ciò non implica che \( 1 = \sqrt{2} \). Pertanto, poiché \( 1 \) e \( \sqrt{2} \) sono due valori distinti in \( \mathbb{R} \), \( Dir(1) \) e \( Dir(\sqrt{2}) \) sono due uscite distinte della funzione \( Dir \).
+
+\subsubsection{Conclusione}
+
+La composizione \( Dir \circ f \) è iniettiva perché:
+
+\begin{itemize}
+    \item Ha solo due input possibili (\( 0 \) e \( 1 \)) che vengono mappati a due valori distinti \( Dir(1) \) e \( Dir(\sqrt{2}) \).
+    \item La non iniettività di \( Dir \) non influisce sulla composizione \( Dir \circ f \) in questo caso, poiché gli argomenti \( f(0) \) e \( f(1) \) sono distinti e quindi mappati a valori distinti.
+\end{itemize}
+    \item sia $Dir : \mathbb{R} \rightarrow \mathbb{R}$ e sia $f_0 : \mathbb{R} \rightarrow \{0 \}$ \\
+    $Dir$ non è suriettiva ma $f_0 \circ Dir$ lo è.
+    \item sia $x = \mathbb{R} \setminus \{0\}$, \\
+    poi $f : x \rightarrow x$, \\  $f(x) = x^2$
+        \begin{center}
+            Diremo che dato $g : x \rightarrow \mathbb{R}$ avremmo $g(z) = log(|z|)$
+        \end{center}
+    \end{itemize}
+\newpage
+\subsubsection{Risoluzione prorpietà d:}
+se $g \circ f$ è iniettiva $\implies$ $f$ è iniettiva
+    \begin{itemize}
+        \item Per ipotesi sia $g \circ f$ iniettiva e consideriamo :
+            \begin{center}
+                $f(x) = f(x^I)$ allora \\
+                Voglio provare che $x = x^I$
+            \end{center}
+        \item Prendo $g$ e calcolo su $f(x) \rightarrow g(f(x)) = g(f(x^I)$
+            \begin{center}
+                Per iniettività di $(g \circ f) \implies x = x^I$
+            \end{center}
+    \end{itemize}
+\subsection{Proprietà della cancellabilità della funzione}
+Sia una $f : x \mapsto y$, sono \textbf{equivalenti} le seguenti:
+\begin{itemize}
+    \item \begin{enumerate}
+        \item $f$ è suriettiva
+        \item $g,h : Y \mapsto Z$ \ \ \ \ \ $(\forall Z)$ \\
+        $g \circ f = h \circ f \implies g = h$
+    \end{enumerate}
+    \item $f$ è iniettiva e sono equivalenti dire:
+    \begin{enumerate}
+        \item $f$ è inversa, quindi $\rightarrow$ $f : x \rightarrow y $
+        \item $\forall Z$ sia $g,h : Z \rightarrow X$, questo se $\rightarrow$ $f \circ g = f \circ h \implies g = h$
+    \end{enumerate}
+\end{itemize}
+    \begin{center}
+        \begin{tikzpicture}
+    % Nodi
+    \node (X) at (0, 0) {$X$};
+    \node (Y) at (3, 0) {$Y$};
+    \node (Z) at (6, 0) {$Z$};
+
+    % Collegamento orizzontale tra X e Y con etichetta f
+    \draw[->] (X) -- (Y) node[midway, above] {$f$};
+
+    % Collegamenti ad arco tra Y e Z con etichette g e h
+    \draw[->, bend left=50] (Y) to node[above] {$g$} (Z);
+    \draw[->, bend right=50] (Y) to node[below] {$h$} (Z);
+
+    % Collegamenti ad arco tra X e Z con etichette g composto f e h composto g
+    \draw[->, bend left=80] (X) to node[above] {$g \circ f$} (Z);
+    \draw[->, bend right=80] (X) to node[below] {$h \circ g$} (Z);
+
+\end{tikzpicture}
+    \end{center}
+In questo caso di dice che $f$ è cancellabile a destra
+
+\newpage
+\subsection{Funzione inversa di biettiva}
+Se una funzione \( f: A \rightarrow B \) è biettiva, significa che è sia iniettiva (ogni elemento di \( A \) mappa a un elemento unico in \( B \)) sia suriettiva (ogni elemento di \( B \) ha almeno un elemento di \( A \) che lo mappa). In altre parole, per ogni \( b \in B \), esiste un unico \( a \in A \) tale che \( f(a) = b \).
+
+La \textbf{funzione inversa} di una funzione biettiva \( f \), indicata con \( f^{-1} \), è una funzione che "inverte" l'effetto di \( f \). In altre parole, l'inversa è una funzione \( f^{-1}: B \rightarrow A \) tale che:
+
+\[
+f^{-1}(f(a)) = a, \quad \forall a \in A
+\]
+e
+\[
+f(f^{-1}(b)) = b, \quad \forall b \in B.
+\]
+
+Questo significa che, applicando la funzione \( f \) e poi la sua inversa \( f^{-1} \) (o viceversa), si ottiene l'elemento di partenza. \\
+Ecco alcuni esempi di funzioni biettive e delle loro inverse:
+
+\begin{enumerate}
+    \item \textbf{Funzione lineare semplice}: La funzione \( f(x) = 2x + 3 \) è biettiva sull'insieme dei numeri reali \( \mathbb{R} \).
+    \begin{itemize}
+        \item Inversa: \( f^{-1}(y) = \frac{y - 3}{2} \).
+    \end{itemize}
+    
+    \item \textbf{Funzione esponenziale}: La funzione \( f(x) = e^x \) è biettiva da \( \mathbb{R} \) a \( (0, +\infty) \).
+    \begin{itemize}
+        \item Inversa: \( f^{-1}(y) = \ln(y) \), con \( y > 0 \).
+    \end{itemize}
+    
+    \item \textbf{Funzione radice quadrata}: La funzione \( f(x) = x^2 \) non è biettiva su \( \mathbb{R} \), ma è biettiva se considerata solo su \( x \geq 0 \).
+    \begin{itemize}
+        \item Inversa: \( f^{-1}(y) = \sqrt{y} \), con \( y \geq 0 \).
+    \end{itemize}
+\end{enumerate}
+
+Vediamo come si determina l'inversa della funzione lineare \( f(x) = 2x + 3 \) passo dopo passo.
+
+\subsubsection{Passi per trovare l'inversa di una funzione lineare}
+
+\begin{enumerate}
+    \item \textbf{Partire dalla funzione}: 
+    \[
+    y = f(x) = 2x + 3.
+    \]
+
+    \item \textbf{Scambiare \( x \) e \( y \)}: 
+    L'inversa della funzione viene trovata scambiando \( x \) e \( y \). Quindi, riscriviamo l'equazione come:
+    \[
+    x = 2y + 3.
+    \]
+
+    \item \textbf{Isolare \( y \)}:
+    Ora dobbiamo risolvere l'equazione per \( y \):
+    \begin{itemize}
+        \item Sottrai 3 da entrambi i lati:
+        \[
+        x - 3 = 2y.
+        \]
+        \item Dividi entrambi i lati per 2:
+        \[
+        y = \frac{x - 3}{2}.
+        \end{itemize}
+    \end{enumerate}
+
+    \item \textbf{Scrivere l'inversa}:
+    Ora che abbiamo \( y \) in funzione di \( x \), possiamo scrivere l'inversa come:
+    \[
+    f^{-1}(x) = \frac{x - 3}{2}.
+    \]
+
+\subsubsection{Elenchiamo adesso qualche prorpietà per aiutarci nelle dimostrazioni:}
+\begin{enumerate}
+    \item se $f : x \rightarrow y$, $g : y \rightarrow x$, $h : y \rightarrow x$ tale che:
+        \begin{center}
+            $(g \circ f) = id_x$ e $(f \circ h) = id_y$
+        \end{center}
+    Allora diremo che $g = h$
+    \item \textbf{Prorpietà di equivalenza}, si definisce come :
+        \begin{itemize}
+            \item $f : x \rightarrow y$, è biettiva
+            \item $f$ ha l'inversa $g : y \rightarrow x$
+            
+        \end{itemize}
+    Diremo che $f$ è biettiva $\implies f^-1$ biettiva.
+\end{enumerate}
+
+\subsubsection{Proviamo a fare una piccola dimostrazione per avere una prospettiva diversa di questi concetti:}
+sia, se $f$ è invertibile (ammette l'inversa) allora è biettiva.
+\begin{itemize}
+    \item $\implies)$ sia $f$ invertibile per ipotesi
+    \begin{center}
+        $\exists g \; | \; g \circ f = id_x$ e $f \circ g = id_y$ \\
+
+        \begin{array}{rl}
+            \text{con } a + b = f \text{ biettiva} & \left\{
+            \begin{array}{l}
+                a = id_x \quad \text{è iniettiva} \implies f \text{ è iniettiva} \\
+                b = id_y \quad \text{è suriettiva} \implies f \text{ è suriettiva}
+            \end{array}
+            \right.
+        \end{array}
+    \end{center}
+    \item $\impliedby )$ sia $f$ biettiva per ipotesi
+    \begin{center}
+        $\forall y \in Y, \exists x \in X | f(x) = y$ e $x$ è \textit{unico} (per surriettività)
+    \end{center}
+    - Poniamo quindi $g(y) = x$
+        \begin{center}
+            $f(g(y)) = f(x) = y \rightarrow \forall y$ \\
+            $\implies f \circ g = id_Y \rightarrow |\forall x \in X$
+        \end{center}
+    - Poniamo adesso: \begin{align*} &g(f(x)) = x \\
+                                    &g \circ f = id_X
+    \end{align*}
+    - Avremmo quindi tramite $f \circ g = id_Y$ e $g \circ f = id_X \rightarrow g = f^-1$ 
+\end{itemize}
+
+\newpage
+3,14 \\[25ex]
+\begin{center} 
+    {\scalebox{50}{$\pi$}}  % Scala il simbolo pi greco 10 volte
+\end{center}
+\newpage
+
+\section{Equivalenza e partizioni}
+\subsection{Equivalenza}
+Definiamo = $R \subseteq X$, prendendo $X$ come un insieme;
+    \begin{enumerate}
+        \item $R$ è \textbf{riflessiva} se per ogni elemento di x, ogni elemento è in relazione con se stesso
+        \item $R$ è \textbf{simmetrica} se $\forall x, y \in X$ e se $xRy$, allora diremmo che: $yRx$
+        \item $R$ è \textbf{transitiva} se $\forall x, y, z \in X$ e:
+            \begin{center}
+                - se sia $xRy$ e sia $yRz$, \\
+                - Allora diremmo che $\rightarrow xRz$
+            \end{center}
+        \item $R$ è quindi di \textbf{equivalenza} se e solo se \textit{valgono \textbf{tutte} le proprietà precendenti}
+    \end{enumerate}
+\subsubsection{Proviamo a fare qualche esempio :}
+\begin{itemize}
+    \item \textbf{Es1)} $\rightarrow R = \{(x,y) \in \mathbb{N}^2 | x + y$ è pari\}
+        \begin{enumerate}
+            \item Se $R$ è riflessiva, $xRx \iff x + x$ è pari
+            \item $R$ è simmetrica se $x + y$ è pari, quindi $\implies y + x $ è pari
+            \item $R$ è transitiva se $xRy \and yRz \implies xRz$ \\
+                    - Questo solo se: \begin{align*}
+                        &x+y = \texttt{pari} \\
+                        &y+z = \texttt{pari} \\
+                        &x+z = \texttt{pari}
+                    \end{align*}
+                    - Allora diremmo che $R$ è di \textit{EQUIVALENZA}
+        \end{enumerate}
+    \item \textbf{Es2)} $\rightarrow X \sim Y$, e $Y, X$ sono arbitrari, \\
+    \textit{(sono detti arbitrari quando non hanno particolari restrizioni o caratteristiche specifiche che li definiscono. In altre parole, si usano due insiemi arbitrari quando si vuole parlare di proprietà o relazioni che valgono per qualsiasi insieme, indipendentemente dalla loro composizione, dimensione o elementi specifici.)} \\
+        \begin{enumerate}
+            \item $X \sim Y \iff \exists f : x \rightarrow y$ (biettiva fra due insiemi)
+            \item $X \sim Y$ è di equivalenza se :
+                \begin{itemize}
+                    \item 1) riflessiva = $X \sim X$, si se prendo $id_X$
+                    \item 2) simmetrica = $X \sim Y \land Y \sim X$, poichè $f$ è biettiva posso considerare $f^-1$
+                    \item 3) transitiva = tramite la proprietà della composizione e biezione :
+                        \begin{center}
+                            $X \sim Y$ \\
+                            $Y \sim Z$
+                        \end{center}
+                \end{itemize} 
+\newpage
+            \item \textbf{sulla proiezione canonica invece:}
+                \begin{itemize}
+                    \item \textbf{nota 1}
+                        \begin{center}
+                            $\pi_\sim$ è  suriettiva
+                        \end{center}
+                    \item \textbf{nota 2} $\sim$, sia $\pi_\sim$ proiezione canonica
+                        \begin{center}
+                            \textbf{costruisco la relazione indotta:}\\
+                                \begin{itemize}
+                                    \item $X_1 R_\pi_\sim X_2 = \pi_\sim (X_1) = \pi_\sim (X_2)$
+                                    \item $[X_1]_\sim = [X_2]_\sim \iff X_1 \sim X_2 $
+                                    \item $R_\pi_\sim = \sim$
+                                \end{itemize}
+                        \end{center}
+                \end{itemize}
+        \end{enumerate}
+\end{itemize}
+\subsubsection{Identità di X su X:}
+Sia :
+    \begin{center}
+        $[X]id_X = \{X \}$ \\
+        $X/id_X = \{\{X\} | x \in X\}$
+        
+    \end{center}
+\subsubsection{Proprietà:} Sia $X$ un insieme, $\sim$ su $X$, $(x, y \in X)$ :
+    \begin{enumerate}
+        \item $x \in [X]_\sim$
+        \item $[x] = [y]_\sim$ se e solo se $x \sim y$
+        \item $[x]_\sim \neq [y]_\sim \iff [x]_\sim \cap [y]_\sim = \emptyset$
+        \item $\pi_\sim : X \rightarrow X/\sim$  \textbf \rightarrow {suriettiva}$    \end{enumerate}
+Prima di passare alle \textit{partizioni}, enunciamo le ultime proposizioni sull'equivalenza: \\
+\textbf{Le seguenti sono equivalenti :}
+    \begin{enumerate}
+        \item $R_1 = R2$
+        \item $[X]_R_1 = [X]_R_2 \rightarrow \forall x \in X$
+        \item $X/R1 = X/R2$
+    \end{enumerate}
+\newpage
+
+
+\subsection{Partizioni di un insieme}
+Sia $X \neq \emptyset$
+Per definizione una \textbf{partizione} è una famiglia \( \mathcal{F} \) di sottoinsiemi di $X$
+   \begin{center}
+    \(
+    \mathcal{F} = \{A_i \mid i \in I \} \rightarrow 
+    \begin{aligned}
+        &A_i \subseteq X \\
+        &i \in I
+    \end{aligned}
+    \)
+\end{center}
+Tale che: 
+    \begin{enumerate}
+        \item $A_i \neq \emptyset \rightarrow \forall i \in I$
+        \item $\bigcup\limits_{i \in I} A_i = X$
+        \item se $A_i$ $\neq A_j \implies A_i \cap A_j = \emptyset$ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ $\rightarrow A_ij \in I$
+    \end{enumerate}
+
+
+\begin{center}
+\begin{tikzpicture}
+    % Disegna il contorno dell'insieme A
+    \draw[thick] (0, 0) circle (3);
+    \node at (3.5, 2.5) {\( A \)};
+    
+    % Linee di separazione per suddividere il cerchio
+    \draw[thick] (0, -3) -- (0, 3); % Linea verticale
+    \draw[thick] (-3, 0) -- (3, 0); % Linea orizzontale
+    
+    % Etichette delle partizioni
+    \node at (-1.5, 1.5) {\( A_1 \)};
+    \node at (1.5, 1.5) {\( A_2 \)};
+    \node at (-1.5, -1.5) {\( A_3 \)};
+    \node at (1.5, -1.5) {\( A_4 \)};
+\end{tikzpicture}
+\end{center}
+Facciamo qualche esempio: \\
+\textbf{1) Partizione totale:} $\rightarrow$ $\mathcal{F} = \{X\}$ \\
+\textbf{2)} $u$ identica $\mathcal{F}_id = \{\{X\} | x \in X\}$ \\
+\textbf{3)} $\mathbb{N} = \{\mathbb{N}_d, \mathbb{N}_p\}, \ \ \ \ \ \ \{\{0\}, \mathbb{N}^+\}$ \\[1EX]
+
+Possiamo quindi dire che La \textbf{partizione di un insieme} è una suddivisione dell'insieme in sottoinsiemi disgiunti che coprono completamente l'insieme originale.\\ 
+In altre parole, una partizione divide un insieme in gruppi in modo che ogni elemento dell'insieme appartenga esattamente a un solo gruppo.
+\newpage
+
+\subsubsection{Esempio:}
+Considera l'insieme $A = \{1, 2, 3, 4, 5\}$. Una possibile partizione di $A$ potrebbe essere:
+\begin{itemize}
+    \item $A_1 = \{1, 2\}$
+    \item $A_2 = \{3\}$
+    \item $A_3 = \{4, 5\}$
+\end{itemize}
+
+In questo caso:
+\begin{itemize}
+    \item $A_1 \cap A_2 = \emptyset$
+    \item $A_1 \cap A_3 = \emptyset$
+    \item $A_2 \cap A_3 = \emptyset$
+    \item $A = A_1 \cup A_2 \cup A_3$.
+\end{itemize}
+
+\subsubsection{Attenzione:}
+$\mathcal{F}$ partizione $\implies \exists !$ equivalenza $R_\mathcal{F}$ \\
+Abbiamo una \textbf{biezione} tra l'insieme delle relazioni di equivalenza su $X$ e le sue partizioni.\\
+\subsubsection{Proprietà:}
+sia $X \neq \emptyset$:
+    \begin{enumerate}
+        \item se $\sim$ di equivalenza su $X$, allora l'insieme $X/\sim$ è una partizione di $X$
+        \item sia $\sim_\mathcal{F}$ definita su $x,y \in X$
+            \begin{center}
+                $X \sim Y \iff \exists i \in I$ tale che $(x \in A_i, \& y \in A)$ \textit{è di equivalenza}
+            \end{center}
+    \end{enumerate}
+
+
+\end{document} 
